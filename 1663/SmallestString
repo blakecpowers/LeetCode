@@ -1,0 +1,48 @@
+package LeetCodeQuestions;
+import java.util.Arrays;
+
+public class SmallestString1663 {
+
+
+  public static void main(String[] args) {
+    getSmallestString(3, 70);
+  }
+
+  public static String getSmallestString(int n, int k) {
+    //
+    // Create a string of the alphabet A-Z.
+    // Each character in the alphabet corresponds to a number - it's index.
+    //
+
+    //
+    // We're going to start off with an Array of a's equal to "n".
+    //
+    char res[] = new char[n];
+    Arrays.fill(res, 'a');
+
+    // Get what k's value is after creating the array full of a's.
+    k = k - n;
+
+    // We now want to get k's value to 0 adding the mimimum amount of characters.
+    // We'll be replacing the last index of n first. Then the second to last index, etc.
+
+    int positionReplaced = 1;
+    while (k > 0) {
+      if (Math.min(25, k) == 25) {
+        res[n-positionReplaced] = 'z';
+        k = k - 25;
+      } else {
+        res[n-positionReplaced] = alphabetCorellation(k);
+        k = -1;
+      }
+      positionReplaced +=1;
+    }
+
+    return String.valueOf(res);
+  }
+
+  public static char alphabetCorellation(int intToChar) {
+    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    return alphabet.charAt(intToChar);
+  }
+}
