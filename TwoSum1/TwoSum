@@ -1,0 +1,19 @@
+class Solution {
+  // Solution using hashmap
+  public static int[] twoSum(int[] nums, int target) {
+
+    // Establish the hashmap 
+    final Map<Integer, Integer> map = new HashMap<>();
+      
+    // Loop through every entry in the nums array.
+    // Find the difference. If this difference exists already in our hash map, then return it.
+    for (int i=0; i<nums.length; i++) {
+      int difference = target - nums[i];
+      if (map.containsKey(difference)) {
+        return new int[] {map.get(difference), i};
+      }
+      map.put(nums[i], i);
+    }
+    throw new IllegalArgumentException("couldnt find a match");
+  }
+}
