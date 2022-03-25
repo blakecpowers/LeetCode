@@ -1,0 +1,56 @@
+package LeetCodeQuestions;
+
+public class LongestPalindrome5 {
+
+  // Just used for testing
+  public static void main(String[] args) {
+    longestPalindrome("racecar");
+  }
+
+
+  public static String longestPalindrome(String s) {
+    if (s == null || s.length() < 1) {
+      return null;
+    }
+
+    // The index where the palindrome starts and ends.
+    int start = 0;
+    int end = 0;
+
+    for (int i =0; i<s.length(); i++) {
+      int len1 = expandFromMiddle(s, i, i);
+      int len2 = expandFromMiddle(s, i, i+1);
+      int palindromeLength = Math.max(len1, len2);
+
+      // If the length of the palindrome we just found it bigger than the previous stored palindrome length,
+      // store the index that it started and ended at.
+      // The start index MUST be the index we're currently on minus have of the palindromes length (minus 1).
+      // The reason we must add the minus one is to account for "even" palindromes. where the start in "cbbd" would be 0 instead of 1.
+      // In odd cases like "racecar" it would work fine. Also, in odd cases, subtracting 1 wouldn't change anything due to rounding.
+      if (palindromeLength > end - start) {
+        start = i - ((palindromeLength-1)/2);
+        end = i + (palindromeLength/2);
+      }
+    }
+
+    return s.substring(start, end +1);
+  }
+
+  public static int expandFromMiddle(String s, int left, int right) {
+    if (s == null || left > right) {
+      return 0;
+    }
+
+    // If the character to our left is equal to the character at our right, keep searching.
+    // In the case where it's an odd length, we will start with left and right the same value.
+    while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+      left--;
+      right++;
+    }
+
+    // Return the right minus the negative left value minus 1 to get the palindrome length.
+    return right - left - 1;
+
+  }
+
+}
