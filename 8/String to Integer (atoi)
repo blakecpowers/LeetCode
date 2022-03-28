@@ -1,0 +1,143 @@
+package LeetCodeQuestions;
+
+import java.math.BigInteger;
+
+public class StringToInt8 {
+
+  public static void main(String[] args) {
+    int a = myAtoi("      -11919730356x");
+    String b = "";
+  }
+
+  public static int myAtoi(String s) {
+    String output = "";
+    boolean isPositive = true;
+    boolean alreadyFoundPosOrNeg = false;
+    for (int i=0; i<s.length(); i++) {
+      if (output.isEmpty()) {
+        if (s.charAt(i) == ' ') {
+          if (alreadyFoundPosOrNeg) {
+            return 0;
+          }
+          continue;
+        } else if (s.charAt(i) == '-') {
+          if (alreadyFoundPosOrNeg) {
+            return 0;
+          }
+          isPositive = false;
+          alreadyFoundPosOrNeg = true;
+          continue;
+        } else if (s.charAt(i) == '+') {
+          if (alreadyFoundPosOrNeg) {
+            return 0;
+          }
+          alreadyFoundPosOrNeg = true;
+          continue;
+        }
+      }
+
+      if (!Character.isDigit(s.charAt(i))) {
+        if (output.isEmpty()) {
+          return 0;
+        } else {
+          if (isPositive) {
+            if (isValueGreaterThanMax(output)) {
+              return Integer.MAX_VALUE;
+            } else {
+              return Integer.parseInt(output);
+            }
+          } else {
+            if (isValueGreaterThanMax(output)) {
+              return -1*Integer.MAX_VALUE-1;
+            } else {
+              return -1 * Integer.parseInt(output);
+            }
+          }
+        }
+      } else {
+        output += s.charAt(i);
+      }
+    }
+
+    if (output.isEmpty()) {
+      return 0;
+    }
+
+    if (isPositive) {
+      if (isValueGreaterThanMax(output)) {
+        return Integer.MAX_VALUE;
+      } else {
+        return Integer.parseInt(output);
+      }
+    } else {
+      if (isValueGreaterThanMax(output)) {
+        return -1*Integer.MAX_VALUE - 1;
+      } else {
+        return -1 * Integer.parseInt(output);
+      }
+    }
+
+  }
+
+  public static boolean isValueGreaterThanMax(String value) {
+    BigInteger maxInt = BigInteger.valueOf(Integer.MAX_VALUE);
+    BigInteger valueCheck = new BigInteger(value);
+
+    if (valueCheck.compareTo(maxInt) > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+//  public static int myAtoi(String s) {
+//    String output = "";
+//    for (int i=0; i<s.length(); i++) {
+//      if (s.charAt(i) == ' ') {
+//        continue;
+//      } else if (s.charAt(i) =='-') {
+//        output+='-';
+//        continue;
+//      }
+//
+//      if (!Character.isDigit(s.charAt(i))) {
+//        if (output.isEmpty()) {
+//          return 0;
+//        } else {
+//          return Integer.parseInt(output);
+//        }
+//      } else {
+//        output += s.charAt(i);
+//      }
+//    }
+//    return Integer.parseInt(output);
+//  }
+
+//  public static int myAtoi(String s) {
+//    boolean startedBuildingInteger = false;
+//    String output = "";
+//
+//    for (int i=0; i<s.length(); i ++) {
+//      if (!startedBuildingInteger) {
+//        if (s.charAt(i) == '-') {
+//          startedBuildingInteger = true;
+//          output += '-';
+//        } else if (Character.isDigit(s.charAt(i))) {
+//          output += s.charAt(i);
+//        }
+//      } else {
+//        if (Character.isDigit(s.charAt(i))) {
+//          output += s.charAt(i);
+//        } else {
+//          return Integer.parseInt(output);
+//        }
+//      }
+//    }
+//    return Integer.parseInt(output);
+//  }
+
+
+
+}
