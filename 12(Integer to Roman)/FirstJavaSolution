@@ -1,0 +1,77 @@
+package LeetCodeQuestions;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class IntegerToRoman12 {
+
+  static Boolean solutionFound = false;
+  static String output = "";
+
+  public static void main(String[] args) {
+    intToRoman(58);
+  }
+
+  public static String intToRoman(int num) {
+    //
+    // Look through the map until you find the Value that's one "step" smaller than the num
+    // Example: num = 3. Look through the map checking 1 then 5... 5 is bigger than num (3).
+    // So take 1. Compose however many 1's needed until it's satisfied.
+    //
+    // Example 2: num = 58. Check 1, 5, 10, 50, 100.
+    // 100 is one step bigger than the num. So start at 50. Add a L.
+    // Then subtract 58 - 50.... = 8.
+    // Do the same for 8.
+    // num = 8. Check 1, 5, 10. The 10 is one step bigger so add a 5 (V).
+    // We have LV with num = 3.
+    // LVIII
+    //
+
+    LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+    map.put("I", 1);
+    map.put("V", 5);
+    map.put("X", 10);
+    map.put("L", 50);
+    map.put("C", 100);
+    map.put("D", 500);
+    map.put("M", 1000);
+
+
+    String retn = recursiveCheck(num, map);
+    return retn;
+
+  }
+
+  public static String recursiveCheck(int num, LinkedHashMap<String, Integer> map) {
+
+    if (solutionFound) {
+      return output;
+    }
+
+    Map.Entry<String,Integer> previousMap = null;
+    for(Map.Entry<String, Integer> entry: map.entrySet()) {
+      if (solutionFound) {
+        break;
+      }
+      if (previousMap == null) {
+        previousMap = entry;
+      }
+      if (num == entry.getValue()) {
+        output+= entry.getKey();
+        solutionFound = true;
+        return output;
+      }
+
+      if (num < entry.getValue()) {
+        num -= previousMap.getValue();
+        output+= previousMap.getKey();
+        recursiveCheck(num, map);
+      } else {
+        previousMap = entry;
+        continue;
+      }
+    }
+    return output;
+  }
+
+}
