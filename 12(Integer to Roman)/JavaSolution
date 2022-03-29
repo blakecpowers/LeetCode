@@ -1,0 +1,20 @@
+  public static String intToRoman(int num) {
+    // Establish all possible values and the corresponding roman values.
+    int[] values = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+    String[] roman = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
+
+    // Create a string builder (could just append a string but this is more optimal).
+    StringBuilder sb = new StringBuilder();
+
+    // Loop through each value and compare it to the number.
+    // If the number is bigger than the value, subtract it, append the roman value, and then evaluate it again.
+    for (int i = values.length-1; i >= 0 && num >0; i--) {
+      while (num >= values[i]) {
+        num -= values[i];
+        sb.append(roman[i]);
+      }
+    }
+    
+    // Return the built roman string.
+    return sb.toString();
+  }
