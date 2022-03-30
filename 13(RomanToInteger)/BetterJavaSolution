@@ -1,0 +1,34 @@
+class Solution {
+   public static int romanToInt(String s) {
+	HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+	map.put('I', 1);
+	map.put('V', 5);
+	map.put('X', 10);
+	map.put('L', 50);
+	map.put('C', 100);
+	map.put('D', 500);
+	map.put('M', 1000);
+       
+    int result = 0;
+       
+    // We're looping through the length of s.
+    // Every time we loop we add whatever character we come across. 
+    // However, we have an if statement that checks if the character we're currently
+    // at is BIGGER than the previous character, we know we messed up. We shouldn't
+    // have added that previous roman numeral value. So we need to subtract it twice
+    // once for the mistake we made by adding it, and another to represent the numeral value.
+       // For example: 
+       //   XIV - We look at the first character. We add it to the result so we have 10. We come to "I" in the string. "I" is less than X so we add it. 
+       // Result = 11. We come across "V" in the string and realize that "V" is bigger than "I". So we need to subtract "I" once because we added it from 
+       // before and subtract is again to represent "IV".
+    for (int i=0; i<s.length(); i++) {
+        if (i>0 && map.get(s.charAt(i)) > map.get(s.charAt(i-1))) {
+            result += map.get(s.charAt(i)) - 2*map.get(s.charAt(i-1));
+        } else {
+        result += map.get(s.charAt(i));
+        }
+    }
+       
+	return result;
+   }
+}
