@@ -1,0 +1,41 @@
+class Solution {
+ public static int romanToInt(String s) {
+    final int[] values  = {1, 4, 5, 9, 10, 40, 50, 90,
+        100, 400, 500, 900, 1000};
+
+    final List<String> symbol = Arrays.asList("I", "IV", "V", "IX",
+                                        "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M");
+
+    // Loop through the string.
+    // First check the first two index's.
+    // If it's one of the symbols, then find the value and add it.
+    // If it's not, only check the first index and find the value and add it.
+    // Increment by two if two index's were used, increment by 1 if one.
+
+    int result = 0;
+    for (int i=0; i<s.length();i++) {
+      String substring = s.substring(i, i+1);
+      String substring2 = "99999";
+      if (i + 2 <= s.length()) {
+        substring2 = s.substring(i, i+2);
+      }
+      if (symbol.contains(substring2)){
+        for (int j=0; j<symbol.size(); j++) {
+          if (Objects.equals(symbol.get(j), substring2)) {
+            result += values[j];
+            i++;
+            break;
+          }
+        }
+      } else {
+        for (int j=0; j<symbol.size(); j++) {
+          if (Objects.equals(symbol.get(j), substring)) {
+            result += values[j];
+            break;
+          }
+        }
+      }
+    }
+    return result;
+  }
+}
