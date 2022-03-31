@@ -1,0 +1,51 @@
+package LeetCodeQuestions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
+public class ValidParentheses20 {
+
+  public static void main(String[] args) {
+    isValid("}");
+  }
+
+  public static boolean isValid(String s) {
+
+    Map<Character, Character> parenthesesMap = new HashMap<>();
+    parenthesesMap.put('(', ')');
+    parenthesesMap.put('{', '}');
+    parenthesesMap.put('[', ']');
+
+    List<Character> openParentheses = new ArrayList<>();
+    openParentheses.add('(');
+    openParentheses.add('{');
+    openParentheses.add('[');
+
+    //
+    // Loop through the string, every time you find an open faced parentheses push it onto the stack.
+    // If you find a closed parentheses, pop it off the stack. Make sure the value being popped off the stack maps to the one pushed.
+    //
+    final Stack<Character> stack = new Stack();
+
+    for (int i=0; i<s.length(); i++) {
+      if (openParentheses.contains(s.charAt(i))) {
+        stack.push(s.charAt(i));
+      } else {
+        if (!stack.isEmpty() && s.charAt(i) == parenthesesMap.get(stack.peek())) {
+          stack.pop();
+        } else {
+          return false;
+        }
+      }
+    }
+
+    if (!stack.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+}
