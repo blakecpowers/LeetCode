@@ -1,0 +1,72 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CloneGraph133 {
+
+
+    // Definition for a Node.
+    static class Node {
+        public int val;
+        public List<Node> neighbors;
+        public Node() {
+            val = 0;
+            neighbors = new ArrayList<>();
+        }
+        public Node(int _val) {
+            val = _val;
+            neighbors = new ArrayList<Node>();
+        }
+        public Node(int _val, ArrayList<Node> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
+        }
+    }
+
+    class Solution {
+        public static Node cloneGraph(Node node) {
+            if (node == null) {
+                return null;
+            }
+            Map<Integer, Node> map = new HashMap<>();
+            return createCloneGraph(node, map);
+        }
+
+        /**
+         * Every node returned from this method is the COPIED node, not the original node.
+         *
+         * @param node
+         * @param map
+         * @return
+         */
+        private static Node createCloneGraph(Node node, Map<Integer, Node> map) {
+            //
+            // If the map contains the node's value, then the copied node exists.
+            //
+            if (map.containsKey(node.val)) {
+                return map.get(node.val);
+            }
+
+            //
+            // If we get to here, the copied node has not been created.
+            //
+            Node copy = new Node(node.val);
+            map.put(node.val, copy);
+
+            //
+            // This is the DFS part. We're going to call the "createCloneGraph" recursively.
+            // Loop over all of our neighbors for our input node.
+            //
+            for (Node neighbor : node.neighbors) {
+                //
+                // Access neighbors by using copy.neighbors and add in the recursive call of clone graph.
+                //
+                copy.neighbors.add(createCloneGraph(neighbor, map));
+            }
+            return copy;
+        }
+
+    }
+
+}
