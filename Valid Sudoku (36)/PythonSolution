@@ -1,3 +1,37 @@
+###
+### The idea of this solution is to create three hashmaps.
+###     One hashmap that maps the columns
+###     One hashmap that maps the rows
+###     Another hashmap that maps the "squares".
+### For the column and squars it's quite simple. The first "row" loop will populate the map like this - (because theres only 3 entries in the first row)
+###         Rows =  {0: {'7', '3', '5'}}
+###         Cols =  {0: {'5'}, 1: {'3'}, 4: {'7'}}
+### The second row loop will look like this:
+###         Rows =  {0: {'7', '3', '5'}, 1: {'1', '5', '6', '9'}}
+###         Cols =  {0: {'6', '5'}, 1: {'3'}, 4: {'7', '9'}, 3: {'1'}, 5: {'5'}}
+### For the rows/cols just keep populating this map and checking if the current value is either in the row[r] of column[c].
+###
+###
+### For the "squares" hashmap, it's a little more tricky.
+### We're going to be breaking up this sudoku into sections of 
+###             (0,0) (0,1) (0,2)
+###             (1,0) (1,1) (1,2)
+###             (2,0) (2,1) (2,2)
+### And if we have any repeating values in those entries, return false.
+### So the map for this is a tuple and it's value is a set of a values that pertain to that "tuple" or section of the sudoku.
+### After loop # -
+###    1         Squares =  (0, 0): {'3', '5'}, (0, 1): {'7'}
+###    2         Squares =  (0, 0): {'3', '6', '5'}, (0, 1): {'1', '7', '5', '9'}
+###    3         Squares =  (0, 0): {'8', '5', '3', '9', '6'}, (0, 1): {'1', '7', '5', '9'}, (0, 2): {'6'}
+###
+###
+### After those three loops we've covered all top 3 squares of the sudoku. We keep doing it for the rest.
+### just like w/ cols and rows if we ever found a duplicate in any square we return false.
+
+
+
+
+
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         cols = collections.defaultdict(set)
@@ -5,9 +39,6 @@ class Solution:
         squares = collections.defaultdict(set)   # key = row/3, col/3
         
         for r in range(9):
-            print("Rows = ", rows)
-            print("Cols = ", cols)
-            print("Squares = ", squares)
             for c in range(9):
                 if board[r][c] == ".":
                     continue
