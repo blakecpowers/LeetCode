@@ -1,0 +1,99 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        # Establish a new array that we will return at the end
+        res = []
+        
+        # Create a recursive method.
+        # "i" represnents the current index on the list of candidates. (while i is 0, we're adding the first value in the list over and over)
+        # "cur" represnets the list we've compiled that sums to "total"
+        # total is the sum of ints currently added to our list that we're checking if it's equal to target.
+        def dfs(i, cur, total):
+            print("i = ", i, ". Cur = ", cur, ". Total = ", total)
+            # First check if the total is equal to the target. If it is, then we found a valid combination and add it to the result.
+            if (total == target):
+                res.append(cur.copy())
+                return
+            # Check if the current index we're on is out of bounds or if the total is bigger than the target. In either case, get out of.
+            if (i >= len(candidates) or total > target):
+                return
+            
+            # Each time this method is called add the current candidate to the list of candidates.
+            cur.append(candidates[i])
+            # Call the method recursively on this index. Keep going to check every combination on this index.
+            dfs(i, cur, total + candidates[i])
+            # Once the index has been checked all the way through, pop the last one off
+            cur.pop()
+            # Call the recursive function again with the next index.
+            dfs(i + 1, cur, total)
+        
+        # Start off the recursive method with the 0th index, an empty array and the total=0.
+        dfs(0, [], 0)
+        
+        # Return the res
+        return res
+    
+    
+    
+
+##
+## Full Example Walkthrough:
+##      Each Recursive Call - 
+            # i =  0 . Cur =  [] . Total =  0                   - Recursive call is starting
+            # i =  0 . Cur =  [2] . Total =  2                  
+            # i =  0 . Cur =  [2, 2] . Total =  4
+            # i =  0 . Cur =  [2, 2, 2] . Total =  6
+            # i =  0 . Cur =  [2, 2, 2, 2] . Total =  8         - Keeps adding 2 until its over the total
+            # i =  1 . Cur =  [2, 2, 2] . Total =  6            - Pops off the last index and adds the next index of candidates.
+            # i =  1 . Cur =  [2, 2, 2, 3] . Total =  9         - Bigger than total so it repeats 
+            # i =  2 . Cur =  [2, 2, 2] . Total =  6
+            # i =  2 . Cur =  [2, 2, 2, 6] . Total =  12
+            # i =  3 . Cur =  [2, 2, 2] . Total =  6
+            # i =  3 . Cur =  [2, 2, 2, 7] . Total =  13
+            # i =  4 . Cur =  [2, 2, 2] . Total =  6            - The index is bigger so it returns it out.
+            # i =  1 . Cur =  [2, 2] . Total =  4               - Curr is popped off again
+            # i =  1 . Cur =  [2, 2, 3] . Total =  7            - Adds the next candidate, it works!!! this set is added to the res.
+            # i =  2 . Cur =  [2, 2] . Total =  4
+            # i =  2 . Cur =  [2, 2, 6] . Total =  10
+            # i =  3 . Cur =  [2, 2] . Total =  4
+            # i =  3 . Cur =  [2, 2, 7] . Total =  11
+            # i =  4 . Cur =  [2, 2] . Total =  4
+            # i =  1 . Cur =  [2] . Total =  2
+            # i =  1 . Cur =  [2, 3] . Total =  5
+            # i =  1 . Cur =  [2, 3, 3] . Total =  8
+            # i =  2 . Cur =  [2, 3] . Total =  5
+            # i =  2 . Cur =  [2, 3, 6] . Total =  11
+            # i =  3 . Cur =  [2, 3] . Total =  5
+            # i =  3 . Cur =  [2, 3, 7] . Total =  12
+            # i =  4 . Cur =  [2, 3] . Total =  5
+            # i =  2 . Cur =  [2] . Total =  2
+            # i =  2 . Cur =  [2, 6] . Total =  8
+            # i =  3 . Cur =  [2] . Total =  2
+            # i =  3 . Cur =  [2, 7] . Total =  9
+            # i =  4 . Cur =  [2] . Total =  2
+            # i =  1 . Cur =  [] . Total =  0
+            # i =  1 . Cur =  [3] . Total =  3
+            # i =  1 . Cur =  [3, 3] . Total =  6
+            # i =  1 . Cur =  [3, 3, 3] . Total =  9
+            # i =  2 . Cur =  [3, 3] . Total =  6
+            # i =  2 . Cur =  [3, 3, 6] . Total =  12
+            # i =  3 . Cur =  [3, 3] . Total =  6
+            # i =  3 . Cur =  [3, 3, 7] . Total =  13
+            # i =  4 . Cur =  [3, 3] . Total =  6
+            # i =  2 . Cur =  [3] . Total =  3
+            # i =  2 . Cur =  [3, 6] . Total =  9
+            # i =  3 . Cur =  [3] . Total =  3
+            # i =  3 . Cur =  [3, 7] . Total =  10
+            # i =  4 . Cur =  [3] . Total =  3
+            # i =  2 . Cur =  [] . Total =  0
+            # i =  2 . Cur =  [6] . Total =  6
+            # i =  2 . Cur =  [6, 6] . Total =  12
+            # i =  3 . Cur =  [6] . Total =  6
+            # i =  3 . Cur =  [6, 7] . Total =  13
+            # i =  4 . Cur =  [6] . Total =  6
+            # i =  3 . Cur =  [] . Total =  0
+            # i =  3 . Cur =  [7] . Total =  7                  - This one also works out
+            # i =  4 . Cur =  [] . Total =  0
+##
+##
+##
+##
